@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ProductApiModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="CATEGORIA">
+    <Key>
+      <PropertyRef Name="C_ID" />
+      <PropertyRef Name="C_DESCRIPCION" />
+    </Key>
+    <Property Name="C_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="C_DESCRIPCION" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PRODUCTO">
+    <Key>
+      <PropertyRef Name="P_ID" />
+      <PropertyRef Name="P_NOMBRE" />
+      <PropertyRef Name="P_CATEGORIA_ID" />
+      <PropertyRef Name="P_IMAGEN_ID" />
+    </Key>
+    <Property Name="P_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="P_NOMBRE" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="P_DESCRIPCION" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="P_CATEGORIA_ID" Type="Int32" Nullable="false" />
+    <Property Name="P_IMAGEN_ID" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PRODUCTO_IMAGEN">
+    <Key>
+      <PropertyRef Name="IMG_ID" />
+      <PropertyRef Name="IMG_DATA" />
+      <PropertyRef Name="IMG_NOMBRE" />
+      <PropertyRef Name="IMG_EXTENSION" />
+    </Key>
+    <Property Name="IMG_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="IMG_DATA" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
+    <Property Name="IMG_NOMBRE" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="IMG_EXTENSION" Type="String" MaxLength="5" FixedLength="false" Unicode="false" Nullable="false" />
+  </EntityType>
+  <EntityContainer Name="ProductApiEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="CATEGORIA" EntityType="Self.CATEGORIA" />
+    <EntitySet Name="PRODUCTO" EntityType="Self.PRODUCTO" />
+    <EntitySet Name="PRODUCTO_IMAGEN" EntityType="Self.PRODUCTO_IMAGEN" />
+  </EntityContainer>
+</Schema>

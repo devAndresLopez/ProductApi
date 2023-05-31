@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ProductApiModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="CATEGORIA">
+    <Key>
+      <PropertyRef Name="C_ID" />
+    </Key>
+    <Property Name="C_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="C_DESCRIPCION" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="PRODUCTO" Relationship="Self.FK_PRODUCTO_CAT" FromRole="CATEGORIA" ToRole="PRODUCTO" />
+  </EntityType>
+  <EntityType Name="PRODUCTO">
+    <Key>
+      <PropertyRef Name="P_ID" />
+    </Key>
+    <Property Name="P_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="P_NOMBRE" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="P_DESCRIPCION" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="P_CATEGORIA_ID" Type="Int32" Nullable="false" />
+    <Property Name="P_IMAGEN_ID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="CATEGORIA" Relationship="Self.FK_PRODUCTO_CAT" FromRole="PRODUCTO" ToRole="CATEGORIA" />
+    <NavigationProperty Name="PRODUCTO_IMAGEN" Relationship="Self.FK_PRODUCTO_IMG" FromRole="PRODUCTO" ToRole="PRODUCTO_IMAGEN" />
+  </EntityType>
+  <EntityType Name="PRODUCTO_IMAGEN">
+    <Key>
+      <PropertyRef Name="IMG_ID" />
+    </Key>
+    <Property Name="IMG_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="IMG_DATA" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
+    <Property Name="IMG_NOMBRE" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="IMG_EXTENSION" Type="String" MaxLength="5" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="PRODUCTO" Relationship="Self.FK_PRODUCTO_IMG" FromRole="PRODUCTO_IMAGEN" ToRole="PRODUCTO" />
+  </EntityType>
+  <Association Name="FK_PRODUCTO_CAT">
+    <End Role="CATEGORIA" Type="Self.CATEGORIA" Multiplicity="1" />
+    <End Role="PRODUCTO" Type="Self.PRODUCTO" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CATEGORIA">
+        <PropertyRef Name="C_ID" />
+      </Principal>
+      <Dependent Role="PRODUCTO">
+        <PropertyRef Name="P_CATEGORIA_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PRODUCTO_IMG">
+    <End Role="PRODUCTO_IMAGEN" Type="Self.PRODUCTO_IMAGEN" Multiplicity="1" />
+    <End Role="PRODUCTO" Type="Self.PRODUCTO" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PRODUCTO_IMAGEN">
+        <PropertyRef Name="IMG_ID" />
+      </Principal>
+      <Dependent Role="PRODUCTO">
+        <PropertyRef Name="P_IMAGEN_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="ProductApiEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="CATEGORIA" EntityType="Self.CATEGORIA" />
+    <EntitySet Name="PRODUCTO" EntityType="Self.PRODUCTO" />
+    <EntitySet Name="PRODUCTO_IMAGEN" EntityType="Self.PRODUCTO_IMAGEN" />
+    <AssociationSet Name="FK_PRODUCTO_CAT" Association="Self.FK_PRODUCTO_CAT">
+      <End Role="CATEGORIA" EntitySet="CATEGORIA" />
+      <End Role="PRODUCTO" EntitySet="PRODUCTO" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PRODUCTO_IMG" Association="Self.FK_PRODUCTO_IMG">
+      <End Role="PRODUCTO_IMAGEN" EntitySet="PRODUCTO_IMAGEN" />
+      <End Role="PRODUCTO" EntitySet="PRODUCTO" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

@@ -1,0 +1,201 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="ProductApiModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CATEGORIA">
+          <Key>
+            <PropertyRef Name="C_ID" />
+          </Key>
+          <Property Name="C_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="C_DESCRIPCION" Type="varchar" MaxLength="250" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PRODUCTO">
+          <Key>
+            <PropertyRef Name="P_ID" />
+          </Key>
+          <Property Name="P_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="P_NOMBRE" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="P_DESCRIPCION" Type="varchar" MaxLength="250" />
+          <Property Name="P_CATEGORIA_ID" Type="int" Nullable="false" />
+          <Property Name="P_IMAGEN_ID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PRODUCTO_IMAGEN">
+          <Key>
+            <PropertyRef Name="IMG_ID" />
+          </Key>
+          <Property Name="IMG_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IMG_DATA" Type="varbinary(max)" Nullable="false" />
+          <Property Name="IMG_NOMBRE" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="IMG_EXTENSION" Type="varchar" MaxLength="5" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_PRODUCTO_CAT">
+          <End Role="CATEGORIA" Type="Self.CATEGORIA" Multiplicity="1" />
+          <End Role="PRODUCTO" Type="Self.PRODUCTO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CATEGORIA">
+              <PropertyRef Name="C_ID" />
+            </Principal>
+            <Dependent Role="PRODUCTO">
+              <PropertyRef Name="P_CATEGORIA_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PRODUCTO_IMG">
+          <End Role="PRODUCTO_IMAGEN" Type="Self.PRODUCTO_IMAGEN" Multiplicity="1" />
+          <End Role="PRODUCTO" Type="Self.PRODUCTO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PRODUCTO_IMAGEN">
+              <PropertyRef Name="IMG_ID" />
+            </Principal>
+            <Dependent Role="PRODUCTO">
+              <PropertyRef Name="P_IMAGEN_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ProductApiModelStoreContainer">
+          <EntitySet Name="CATEGORIA" EntityType="Self.CATEGORIA" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PRODUCTO" EntityType="Self.PRODUCTO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PRODUCTO_IMAGEN" EntityType="Self.PRODUCTO_IMAGEN" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_PRODUCTO_CAT" Association="Self.FK_PRODUCTO_CAT">
+            <End Role="CATEGORIA" EntitySet="CATEGORIA" />
+            <End Role="PRODUCTO" EntitySet="PRODUCTO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PRODUCTO_IMG" Association="Self.FK_PRODUCTO_IMG">
+            <End Role="PRODUCTO_IMAGEN" EntitySet="PRODUCTO_IMAGEN" />
+            <End Role="PRODUCTO" EntitySet="PRODUCTO" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ProductApiModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="CATEGORIA">
+          <Key>
+            <PropertyRef Name="C_ID" />
+          </Key>
+          <Property Name="C_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="C_DESCRIPCION" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="PRODUCTO" Relationship="Self.FK_PRODUCTO_CAT" FromRole="CATEGORIA" ToRole="PRODUCTO" />
+        </EntityType>
+        <EntityType Name="PRODUCTO">
+          <Key>
+            <PropertyRef Name="P_ID" />
+          </Key>
+          <Property Name="P_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="P_NOMBRE" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="P_DESCRIPCION" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="P_CATEGORIA_ID" Type="Int32" Nullable="false" />
+          <Property Name="P_IMAGEN_ID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="CATEGORIA" Relationship="Self.FK_PRODUCTO_CAT" FromRole="PRODUCTO" ToRole="CATEGORIA" />
+          <NavigationProperty Name="PRODUCTO_IMAGEN" Relationship="Self.FK_PRODUCTO_IMG" FromRole="PRODUCTO" ToRole="PRODUCTO_IMAGEN" />
+        </EntityType>
+        <EntityType Name="PRODUCTO_IMAGEN">
+          <Key>
+            <PropertyRef Name="IMG_ID" />
+          </Key>
+          <Property Name="IMG_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IMG_DATA" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
+          <Property Name="IMG_NOMBRE" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="IMG_EXTENSION" Type="String" MaxLength="5" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="PRODUCTO" Relationship="Self.FK_PRODUCTO_IMG" FromRole="PRODUCTO_IMAGEN" ToRole="PRODUCTO" />
+        </EntityType>
+        <Association Name="FK_PRODUCTO_CAT">
+          <End Role="CATEGORIA" Type="Self.CATEGORIA" Multiplicity="1" />
+          <End Role="PRODUCTO" Type="Self.PRODUCTO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CATEGORIA">
+              <PropertyRef Name="C_ID" />
+            </Principal>
+            <Dependent Role="PRODUCTO">
+              <PropertyRef Name="P_CATEGORIA_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PRODUCTO_IMG">
+          <End Role="PRODUCTO_IMAGEN" Type="Self.PRODUCTO_IMAGEN" Multiplicity="1" />
+          <End Role="PRODUCTO" Type="Self.PRODUCTO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PRODUCTO_IMAGEN">
+              <PropertyRef Name="IMG_ID" />
+            </Principal>
+            <Dependent Role="PRODUCTO">
+              <PropertyRef Name="P_IMAGEN_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ProductApiEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="CATEGORIA" EntityType="Self.CATEGORIA" />
+          <EntitySet Name="PRODUCTO" EntityType="Self.PRODUCTO" />
+          <EntitySet Name="PRODUCTO_IMAGEN" EntityType="Self.PRODUCTO_IMAGEN" />
+          <AssociationSet Name="FK_PRODUCTO_CAT" Association="Self.FK_PRODUCTO_CAT">
+            <End Role="CATEGORIA" EntitySet="CATEGORIA" />
+            <End Role="PRODUCTO" EntitySet="PRODUCTO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PRODUCTO_IMG" Association="Self.FK_PRODUCTO_IMG">
+            <End Role="PRODUCTO_IMAGEN" EntitySet="PRODUCTO_IMAGEN" />
+            <End Role="PRODUCTO" EntitySet="PRODUCTO" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ProductApiModelStoreContainer" CdmEntityContainer="ProductApiEntities">
+          <EntitySetMapping Name="CATEGORIA">
+            <EntityTypeMapping TypeName="ProductApiModel.CATEGORIA">
+              <MappingFragment StoreEntitySet="CATEGORIA">
+                <ScalarProperty Name="C_ID" ColumnName="C_ID" />
+                <ScalarProperty Name="C_DESCRIPCION" ColumnName="C_DESCRIPCION" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PRODUCTO">
+            <EntityTypeMapping TypeName="ProductApiModel.PRODUCTO">
+              <MappingFragment StoreEntitySet="PRODUCTO">
+                <ScalarProperty Name="P_ID" ColumnName="P_ID" />
+                <ScalarProperty Name="P_NOMBRE" ColumnName="P_NOMBRE" />
+                <ScalarProperty Name="P_DESCRIPCION" ColumnName="P_DESCRIPCION" />
+                <ScalarProperty Name="P_CATEGORIA_ID" ColumnName="P_CATEGORIA_ID" />
+                <ScalarProperty Name="P_IMAGEN_ID" ColumnName="P_IMAGEN_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PRODUCTO_IMAGEN">
+            <EntityTypeMapping TypeName="ProductApiModel.PRODUCTO_IMAGEN">
+              <MappingFragment StoreEntitySet="PRODUCTO_IMAGEN">
+                <ScalarProperty Name="IMG_ID" ColumnName="IMG_ID" />
+                <ScalarProperty Name="IMG_DATA" ColumnName="IMG_DATA" />
+                <ScalarProperty Name="IMG_NOMBRE" ColumnName="IMG_NOMBRE" />
+                <ScalarProperty Name="IMG_EXTENSION" ColumnName="IMG_EXTENSION" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

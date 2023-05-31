@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ProductApiModelStoreContainer" CdmEntityContainer="ProductApiEntities">
+    <EntitySetMapping Name="CATEGORIA">
+      <EntityTypeMapping TypeName="ProductApiModel.CATEGORIA">
+        <MappingFragment StoreEntitySet="CATEGORIA">
+          <ScalarProperty Name="C_ID" ColumnName="C_ID" />
+          <ScalarProperty Name="C_DESCRIPCION" ColumnName="C_DESCRIPCION" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PRODUCTO">
+      <EntityTypeMapping TypeName="ProductApiModel.PRODUCTO">
+        <MappingFragment StoreEntitySet="PRODUCTO">
+          <ScalarProperty Name="P_ID" ColumnName="P_ID" />
+          <ScalarProperty Name="P_NOMBRE" ColumnName="P_NOMBRE" />
+          <ScalarProperty Name="P_DESCRIPCION" ColumnName="P_DESCRIPCION" />
+          <ScalarProperty Name="P_CATEGORIA_ID" ColumnName="P_CATEGORIA_ID" />
+          <ScalarProperty Name="P_IMAGEN_ID" ColumnName="P_IMAGEN_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PRODUCTO_IMAGEN">
+      <EntityTypeMapping TypeName="ProductApiModel.PRODUCTO_IMAGEN">
+        <MappingFragment StoreEntitySet="PRODUCTO_IMAGEN">
+          <ScalarProperty Name="IMG_ID" ColumnName="IMG_ID" />
+          <ScalarProperty Name="IMG_DATA" ColumnName="IMG_DATA" />
+          <ScalarProperty Name="IMG_NOMBRE" ColumnName="IMG_NOMBRE" />
+          <ScalarProperty Name="IMG_EXTENSION" ColumnName="IMG_EXTENSION" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
