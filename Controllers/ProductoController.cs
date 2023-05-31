@@ -12,7 +12,6 @@ namespace ProductApi.Controllers
 {
     public class ProductoController : ApiController
     {
-        private str;
         private IProductoDomain _Domain;
         public ProductoController(IProductoDomain Domain)
         {
